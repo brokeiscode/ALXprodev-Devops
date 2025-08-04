@@ -1,9 +1,12 @@
 #!/bin/bash
 # Automate the process of making API requests to the Pokémon API and saving the results to a file
 
-trap 'echo "An error occurred. Exiting..."; exit 1' ERR
-wget -O data.json  https://pokeapi.co/api/v2/pokemon/ || exit 1
+handle_error() {
+    echo "An error occurred. Exiting..." >> errors.txt
+    exit 1
+}
 
-if [$? -ne 0]; then
-	echo "Error occurred."
-fi
+trap handle_error ERR
+
+curl -o data.json  https://pokeapi.co/api/v2/pokemon/
+
