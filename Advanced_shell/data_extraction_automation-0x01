@@ -8,10 +8,10 @@ handle_error() {
 
 trap handle_error ERR
 
-name=$(jq -r .forms.[0].name data.json)
-weight=$(jq -r .weight data.json)
-height=$(jq -r .height data.json)
-type=$(jq -r .types.[].type.name data.json)
+name=$(jq -r '.forms.[0].name' data.json)
+weight=$(jq -r '.weight' data.json)
+height=$(jq -r '.height' data.json)
+type=$(jq -r '.types.[].type.name' data.json)
 
 formatted_weight=$(awk "BEGIN { printf \"%.0f\", $weight / 10 }")
 formatted_height=$(awk "BEGIN { printf \"%.1f\", $height / 10 }")

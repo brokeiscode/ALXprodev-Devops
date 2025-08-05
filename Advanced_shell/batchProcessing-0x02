@@ -1,0 +1,28 @@
+#!/bin/bash
+# Automate the retrieval of data for multiple Pokémon and store it in separate files.
+
+handle_error() {
+    echo "An error occurred. Exiting..." >> errors.txt
+    exit 1
+}
+
+trap handle_error ERR
+
+pokemons=(bulbasaur ivysaur venusaur charmander charmeleon)
+
+api=$(curl https://pokeapi.co/api/v2/pokemon/)
+
+api_list=$(echo $api | jq -c '.results')
+
+mkdir -p pokemon_data
+
+for name in "${pokemons[@]}"
+do
+	echo "Fetching data for ${name}..."
+	select_api=$(echo $api_list | jq -r --arg named "$name" '.[] | select(.name==$named) | .url')
+	if [ -n "$select_api" ];then
+		curl -s -o pokemon_data/${name}.json "$select_api"
+		echo "Saved data to pokemon_data/${name}.json ✅"
+	fi
+	sleep 1
+done
