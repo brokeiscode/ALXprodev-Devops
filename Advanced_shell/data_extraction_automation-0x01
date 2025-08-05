@@ -1,0 +1,19 @@
+#!/bin/bash
+# Use advanced text manipulation tools (jq, awk, sed) to extract specific data from the API response.
+
+handle_error() {
+    echo "An error occurred. Exiting..." >> errors.txt
+    exit 1
+}
+
+trap handle_error ERR
+
+name=$(jq -r .forms.[0].name data.json)
+weight=$(jq -r .weight data.json)
+height=$(jq -r .height data.json)
+type=$(jq -r .types.[].type.name data.json)
+
+formatted_weight=$(awk "BEGIN { printf \"%.0f\", $weight / 10 }")
+formatted_height=$(awk "BEGIN { printf \"%.1f\", $height / 10 }")
+
+echo "$name is of type $type, weighs ${formatted_weight}kg, and is ${formatted_height}m tall."
