@@ -26,18 +26,13 @@ fetch_pokemon() {
 	fi
 }
 
-PIDS=()
-
 for pokemon in "${pokemons[@]}"; do
     fetch_pokemon "$pokemon" &
-    PIDS+=($!)
 done
 
-for pid in "${PIDS[@]}"; do
-    wait "$pid"
-    if [ $? -ne 0 ]; then
-        echo "Process $pid for a Pokémon fetch failed."
-    fi
-done
+jobs
+wait
 
 echo "All Pokemon data processes completed."
+
+kill 0
