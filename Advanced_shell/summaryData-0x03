@@ -24,7 +24,7 @@ for json_file in pokemon_data/*.json; do
         f_height=$(awk "BEGIN { printf \"%.1f\", $height / 10 }")
         f_weight=$(awk "BEGIN { printf \"%.0f\", $weight / 10 }")
 
-	echo "$name,$f_height,$f_weight" >> "pokemon_report.csv"
+	echo "$(echo $name | sed 's/.*/\u&/'),$f_height,$f_weight" >> "pokemon_report.csv"
 	
 	total_height=$(awk "BEGIN { print $total_height + $f_height }")
   	total_weight=$(awk "BEGIN { print $total_weight + $f_weight }")
