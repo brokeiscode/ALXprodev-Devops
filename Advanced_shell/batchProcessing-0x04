@@ -10,8 +10,14 @@ trap handle_error ERR
 
 pokemons=(bulbasaur ivysaur venusaur charmander charmeleon)
 
+api=$(curl https://pokeapi.co/api/v2/pokemon/)
+
+api_list=$(echo $api | jq -c '.results')
+
+mkdir -p pokemon_data
+
 fetch_pokemon() {
-	local pokemon="$1"
+	local name="$1"
 	echo "Fetching data for ${name}..."
 	select_api=$(echo $api_list | jq -r --arg named "$name" '.[] | select(.name==$named) | .url')
 	if [ -n "$select_api" ];then
@@ -22,8 +28,8 @@ fetch_pokemon() {
 
 PIDS=()
 
-for pokemon in "${POKEMON_NAMES[@]}"; do
-    fetch_pokemon_data "$pokemon" &
+for pokemon in "${pokemons[@]}"; do
+    fetch_pokemon "$pokemon" &
     PIDS+=($!)
 done
 
