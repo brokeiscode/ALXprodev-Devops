@@ -7,6 +7,11 @@
 | File | Description |
 |------|-------------|
 | `apiAutomation-0x00` | Automate the process of making API requests to the Pokémon API and saving the results to a file |
+| `data_extraction_automation-0x01` | Use advanced text manipulation tools (jq, awk, sed) to extract specific data from the API response |
+| `batchProcessing-0x02` | Automate the retrieval of data for multiple Pokémon and store it in separate files |
+| `summaryData-0x03` | Create a report that summarizes data for multiple Pokémon |
+| `batchProcessing-0x02` | Add robust error handling and retry logic for API requests |
+| `batchProcessing-0x04` | Speed up data retrieval using parallel processing |
 
 ## Usage
 
